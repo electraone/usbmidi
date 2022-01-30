@@ -245,7 +245,7 @@ const UCHAR g_midi_report_descriptor_mouse[] = { 0 };
 void ux_v2_err_callback(void *p_instance, void *p_data)
 ux_v2_err_callback_WEAK_ATTRIBUTE;
 /* Static memory pool allocation used by USBX system. */
-static CHAR g_ux_pool_memory[18432];
+CHAR g_ux_pool_memory[18432];
 /*******************************************************************************************************************//**
  * @brief      This is a weak example initialization error function.  It should be overridden by defining a user  function 
  *             with the prototype below.
