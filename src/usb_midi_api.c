@@ -5,8 +5,7 @@ UX_SLAVE_CLASS_MIDI *usbMIDI;
 
 void send(uint8_t type, uint8_t data1, uint8_t data2, uint8_t channel, uint8_t cable)
 {
-    UX_SLAVE_CLASS_MIDI_EVENT midi_event;
-    UX_SLAVE_CLASS_MIDI_PACKET packet;
+    uint32_t packet;
 
     if (cable >= 3)
     {
@@ -21,24 +20,25 @@ void send(uint8_t type, uint8_t data1, uint8_t data2, uint8_t channel, uint8_t c
         }
 
         type &= 0xF0;
-        packet.data = (type << 8) | (type >> 4) | ((cable & 0x0F) << 4) | (((channel - 1) & 0x0F) << 8)
-                | ((data1 & 0x7F) << 16) | ((data2 & 0x7F) << 24);
+        packet = (type << 8) | (type >> 4) |
+                 ((cable & 0x0F) << 4) | (((channel - 1) & 0x0F) << 8) |
+                 ((data1 & 0x7F) << 16) | ((data2 & 0x7F) << 24);
     }
     else if (type >= 0xF8 || type == 0xF6)
     {
-        packet.data = (type << 8) | 0x0F | ((cable & 0x0F) << 4);
+        packet = (type << 8) | 0x0F | ((cable & 0x0F) << 4);
     }
     else if (type == 0xF1 || type == 0xF3)
     {
-        packet.data = (type << 8) | 0x02 | ((cable & 0x0F) << 4) | ((data1 & 0x7F) << 16);
+        packet = (type << 8) | 0x02 | ((cable & 0x0F) << 4) | ((data1 & 0x7F) << 16);
     }
     else if (type == 0xF2)
     {
-        packet.data = (type << 8) | 0x03 | ((cable & 0x0F) << 4) | ((data1 & 0x7F) << 16) | ((data2 & 0x7F) << 24);
+        packet = (type << 8) | 0x03 | ((cable & 0x0F) << 4) | ((data1 & 0x7F) << 16) | ((data2 & 0x7F) << 24);
     }
 
-    midi_event.ux_device_class_midi_packet.data = packet.data;
-    ux_device_class_midi_event_set (usbMIDI, &midi_event);
+    ux_device_class_midi_send_packet(packet);
+
 }
 
 void begin(void)

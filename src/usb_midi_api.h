@@ -7,6 +7,7 @@
 
 extern UX_SLAVE_CLASS_MIDI* usbMIDI;
 
+
 void send(uint8_t type, uint8_t data1, uint8_t data2, uint8_t channel, uint8_t cable);
 void begin(void);
 void end(void);

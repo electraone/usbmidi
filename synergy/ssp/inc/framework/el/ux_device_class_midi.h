@@ -166,6 +166,8 @@ UINT  _ux_device_class_midi_event_set(UX_SLAVE_CLASS_MIDI *midi,
 UINT  _ux_device_class_midi_event_get(UX_SLAVE_CLASS_MIDI *midi,
                                       UX_SLAVE_CLASS_MIDI_EVENT *midi_event);
 
+VOID ux_device_class_midi_send_packet(UINT packet);
+
 /* Define Device MIDI Class API prototypes.  */
 
 #define ux_device_class_midi_entry        _ux_device_class_midi_entry
