@@ -49,31 +49,13 @@ void usb_midi_thread_entry(void)
 
             /* Form that interface, derive the MIDI owner.  */
             midi = interface->ux_slave_interface_class_instance;
+            usbMIDI = midi;
 
             tx_thread_sleep(10);
 
-
-            UX_SLAVE_CLASS_MIDI_PACKET packet;
-
-            packet.data = sendNoteOn();
-            midi_event.ux_device_class_midi_packet.data = packet.data;
-
-#if (0)
-            /* Cable 0 and CIN 9 (note off).  */
-            midi_event.ux_device_class_midi_event_buffer[0] = packet.byte_0;
-
-            /* Note off (9). */
-            midi_event.ux_device_class_midi_event_buffer[1] = packet.midi_0;
-
-            /* Note nr  */
-            midi_event.ux_device_class_midi_event_buffer[2] = packet.midi_1;
-
-            /* Velocity.  */
-            midi_event.ux_device_class_midi_event_buffer[3] = packet.midi_2;
-#endif
-            /* Set the keyboard event.  */
-            ux_device_class_midi_event_set(midi, &midi_event);
-
+            sendNoteOn(60, 127, 16, 2);
+            sendNoteOff(60, 127, 16, 2);
+            sendControlChange(1, 127, 16, 2);
         }
     }
 }
