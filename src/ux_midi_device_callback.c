@@ -29,10 +29,12 @@ ULONG caps_lock_flag = UX_FALSE;
 
 
 /* This example callback shows how to interpret an event for a HID keyboard. */
+UINT ux_midi_device_callback(UX_SLAVE_CLASS_MIDI* midi, UX_SLAVE_CLASS_MIDI_EVENT* midi_event);
 UINT ux_midi_device_callback(UX_SLAVE_CLASS_MIDI* midi, UX_SLAVE_CLASS_MIDI_EVENT* midi_event)
 {
     /* Does nothing. */
     SSP_PARAMETER_NOT_USED(midi);
+    SSP_PARAMETER_NOT_USED(midi_event);
 
 #if (0)
     /* There was an event.  Analyze it.  Is it NUM LOCK ? */
