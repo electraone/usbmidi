@@ -28,11 +28,6 @@
 #include "ux_device_class_midi.h"
 #include "ux_device_stack.h"
 
-#include "r_ioport.h"
-#include "r_ioport_api.h"
-extern const ioport_instance_t g_ioport;
-static ioport_level_t levelx = IOPORT_LEVEL_LOW;
-
 /**************************************************************************/ 
 /*                                                                        */ 
 /*  FUNCTION                                               RELEASE        */ 
@@ -125,16 +120,6 @@ UINT  _ux_device_class_midi_event_set(UX_SLAVE_CLASS_MIDI *midi,
 
 	/* Set an event to wake up the interrupt thread.  */
 	_ux_utility_event_flags_set(&midi -> ux_device_class_midi_event_flags_group, UX_DEVICE_CLASS_MIDI_NEW_EVENT, UX_OR);
-
-	if(IOPORT_LEVEL_LOW == levelx)
-	{
-		levelx = IOPORT_LEVEL_HIGH;
-	}
-	else
-	{
-		levelx = IOPORT_LEVEL_LOW;
-	}
-	g_ioport.p_api->pinWrite(IOPORT_PORT_06_PIN_00, levelx);
 
     /* Return event status to the user.  */
     return(UX_SUCCESS);

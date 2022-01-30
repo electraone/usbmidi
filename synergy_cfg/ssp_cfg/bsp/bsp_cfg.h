@@ -5,7 +5,7 @@
 #include "bsp_mcu_family_cfg.h"
 #include "bsp_board_cfg.h"
 #define SYNERGY_NOT_DEFINED 0
-#if (SYNERGY_NOT_DEFINED) == (1)
+#if (SYNERGY_NOT_DEFINED) == (2)
             #define BSP_CFG_RTOS (0)
             #else
 #define BSP_CFG_RTOS (1)

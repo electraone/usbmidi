@@ -10,8 +10,6 @@ void usb_midi_thread_entry(void)
     UX_SLAVE_CLASS_MIDI* midi;
     UX_SLAVE_CLASS_MIDI_EVENT midi_event;
 
-    ioport_level_t level = IOPORT_LEVEL_LOW;
-
     /* Get the pointer to the device.  */
     device =  &_ux_system_slave->ux_system_slave_device;
 
@@ -27,22 +25,9 @@ void usb_midi_thread_entry(void)
             tx_thread_sleep(10);
         }
 
-        g_ioport.p_api->pinWrite(IOPORT_PORT_06_PIN_00, IOPORT_LEVEL_HIGH);
-
         /* Until the device stays configured.  */
         while (device->ux_slave_device_state == UX_DEVICE_CONFIGURED)
         {
-            if(IOPORT_LEVEL_LOW == level)
-            {
-                level = IOPORT_LEVEL_HIGH;
-            }
-            else
-            {
-                level = IOPORT_LEVEL_LOW;
-            }
-
-            g_ioport.p_api->pinWrite(IOPORT_PORT_06_PIN_01, level);
-
             /* Get the interface.  USB MIDI interface runs on second interface.  */
             interface =  device->ux_slave_device_first_interface;
             interface = interface->ux_slave_interface_next_interface;

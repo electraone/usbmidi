@@ -64,10 +64,10 @@ Synergy Configuration
     
   Pin Configurations
     S7G2-SK.pincfg -> g_bsp_pin_cfg
-      AVCC0 155 - - - - - - - - 
-      AVCCUSBHS 26 - - - - - - - - 
-      AVSS0 156 - - - - - - - - 
-      AVSSUSBHS 28 - - - - - - - - 
+      AVCC0 155 ANALOG0_AVCC0 - - - - - - - 
+      AVCCUSBHS 26 USBHS0_AVCC - - - - - - - 
+      AVSS0 156 ANALOG0_AVSS0 - - - - - - - 
+      AVSSUSBHS 28 USBHS0_AVSS - - - - - - - 
       P000 169 ADC0_AN00 GPIO29 - - "Analog mode" - - "ACMPHS0: IVCMP; ADC0: AN00; ICU0: IRQ06" 
       P001 168 ADC0_AN01 GPIO28 - - "Analog mode" - - "ACMPHS1: IVCMP; ADC0: AN01; ICU0: IRQ07" 
       P002 167 ADC0_AN02 GPIO27 - - "Analog mode" - - "ACMPHS2: IVCMP; ADC0: AN02; ICU0: IRQ08" 
@@ -194,52 +194,52 @@ Synergy Configuration
       PA10 109 GLCDC0_LCD_DATA07 GLCD_Controller__Pin_Option_B_LCD_DATA07_B Medium - "Peripheral mode" CMOS None "GLCDC0: LCD_DATA07" 
       PB00 16 USBHS0_VBUSEN USB_High_Speed_USBHS_VBUSEN Low - "Peripheral mode" CMOS None "SCI3: SCK; USB_HS0: VBUSEN" 
       PB01 17 USBHS0_VBUS USB_High_Speed_USBHS_VBUS Low - "Peripheral mode" CMOS None "SCI3: CTS; USB_HS0: VBUS" 
-      PVSSUSBHS 29 - - - - - - - - 
-      RES# 67 - - - - - - - - 
-      USBDM 46 - - - - - - - - 
-      USBDP 47 - - - - - - - - 
-      USBHSDM 31 - - - - - - - - 
-      USBHSDP 32 - - - - - - - - 
-      USBHSRREF 27 - - - - - - - - 
-      VBATT 18 - - - - - - - - 
-      VCC 110 - - - - - - - - 
-      VCC 123 - - - - - - - - 
-      VCC 25 - - - - - - - - 
-      VCC 138 - - - - - - - - 
-      VCC 149 - - - - - - - - 
-      VCC 61 - - - - - - - - 
-      VCC 171 - - - - - - - - 
-      VCC 84 - - - - - - - - 
-      VCC 97 - - - - - - - - 
-      VCCDCDC 66 - - - - - - - - 
-      VCCUSB 48 - - - - - - - - 
-      VCCUSBHS 34 - - - - - - - - 
-      VCL0 19 - - - - - - - - 
-      VCL1 62 - - - - - - - - 
-      VCL2 148 - - - - - - - - 
-      VCLF 112 - - - - - - - - 
-      VLO 64 - - - - - - - - 
-      VLO 65 - - - - - - - - 
-      VREFH 154 - - - - - - - - 
-      VREFH0 158 - - - - - - - - 
-      VREFL 153 - - - - - - - - 
-      VREFL0 157 - - - - - - - - 
-      VSS 22 - - - - - - - - 
-      VSS 111 - - - - - - - - 
-      VSS 35 - - - - - - - - 
-      VSS 124 - - - - - - - - 
-      VSS 139 - - - - - - - - 
-      VSS 60 - - - - - - - - 
-      VSS 170 - - - - - - - - 
-      VSS 83 - - - - - - - - 
-      VSS 150 - - - - - - - - 
-      VSS 63 - - - - - - - - 
-      VSS 98 - - - - - - - - 
-      VSS1USBHS 33 - - - - - - - - 
-      VSS2USBHS 30 - - - - - - - - 
-      VSSUSB 45 - - - - - - - - 
-      XCIN 20 - - - - - - - - 
-      XCOUT 21 - - - - - - - - 
+      PVSSUSBHS 29 USBHS0_PVSS - - - - - - - 
+      RES# 67 SYSTEM0_RES - - - - - - - 
+      USBDM 46 USBFS0_DM - - - - - - - 
+      USBDP 47 USBFS0_DP - - - - - - - 
+      USBHSDM 31 USBHS0_DM - - - - - - - 
+      USBHSDP 32 USBHS0_DP - - - - - - - 
+      USBHSRREF 27 USBHS0_RREF - - - - - - - 
+      VBATT 18 SYSTEM0_VBATT - - - - - - - 
+      VCC 110 SYSTEM0_VCC - - - - - - - 
+      VCC 123 SYSTEM0_VCC - - - - - - - 
+      VCC 25 SYSTEM0_VCC - - - - - - - 
+      VCC 138 SYSTEM0_VCC - - - - - - - 
+      VCC 149 SYSTEM0_VCC - - - - - - - 
+      VCC 61 SYSTEM0_VCC - - - - - - - 
+      VCC 171 SYSTEM0_VCC - - - - - - - 
+      VCC 84 SYSTEM0_VCC - - - - - - - 
+      VCC 97 SYSTEM0_VCC - - - - - - - 
+      VCCDCDC 66 SYSTEM0_VCC_DCDC - - - - - - - 
+      VCCUSB 48 USBFS0_VCC - - - - - - - 
+      VCCUSBHS 34 USBHS0_VCC - - - - - - - 
+      VCL0 19 SYSTEM0_VCL0 - - - - - - - 
+      VCL1 62 SYSTEM0_VCL1 - - - - - - - 
+      VCL2 148 SYSTEM0_VCL2 - - - - - - - 
+      VCLF 112 SYSTEM0_VCL_F - - - - - - - 
+      VLO 64 SYSTEM0_VLO - - - - - - - 
+      VLO 65 SYSTEM0_VLO - - - - - - - 
+      VREFH 154 ANALOG0_VREFH - - - - - - - 
+      VREFH0 158 ANALOG0_VREFH0 - - - - - - - 
+      VREFL 153 ANALOG0_VREFL - - - - - - - 
+      VREFL0 157 ANALOG0_VREFL0 - - - - - - - 
+      VSS 22 SYSTEM0_VSS - - - - - - - 
+      VSS 111 SYSTEM0_VSS - - - - - - - 
+      VSS 35 SYSTEM0_VSS - - - - - - - 
+      VSS 124 SYSTEM0_VSS - - - - - - - 
+      VSS 139 SYSTEM0_VSS - - - - - - - 
+      VSS 60 SYSTEM0_VSS - - - - - - - 
+      VSS 170 SYSTEM0_VSS - - - - - - - 
+      VSS 83 SYSTEM0_VSS - - - - - - - 
+      VSS 150 SYSTEM0_VSS - - - - - - - 
+      VSS 63 SYSTEM0_VSS - - - - - - - 
+      VSS 98 SYSTEM0_VSS - - - - - - - 
+      VSS1USBHS 33 USBHS0_VSS1 - - - - - - - 
+      VSS2USBHS 30 USBHS0_VSS2 - - - - - - - 
+      VSSUSB 45 USBFS0_VSS - - - - - - - 
+      XCIN 20 CGC0_XCIN - - - - - - - 
+      XCOUT 21 CGC0_XCOUT - - - - - - - 
       
   Module "CGC Driver on r_cgc"
     Parameter Checking: Default (BSP)
@@ -438,4 +438,12 @@ Synergy Configuration
         (Mouse) Maximum packet size in bytes for Interrupt-Out EP(Optional): 0x8
         (Mouse) Interval for polling Interrupt-Out EP for data transfers(milliseconds)(Optional): 0x8
         
+  Thread "Button Reader"
+    Symbol: read_buttons_thread
+    Name: Button Reader
+    Stack size (bytes): 1024
+    Priority: 1
+    Auto start: Enabled
+    Time slicing interval (ticks): 1
+    
   Messaging

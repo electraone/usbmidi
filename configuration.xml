@@ -249,7 +249,7 @@
     </module>
     <module id="module.framework.sf_el_ux_dcd_fs.60162710">
       <property id="module.framework.sf_el_ux_dcd_fs.name" value="g_sf_el_ux_dcd_fs_0"/>
-      <property id="module.framework.sf_el_ux_dcd_fs.hw_address" value="R_USBFS_BASE"/>
+      <property id="module.framework.sf_el_ux_dcd_fs.hw_address" value="module.framework.sf_el_ux_dcd_fs.hw_address.fs"/>
     </module>
     <module id="module.driver.transfer_on_dtc.1543687814">
       <property id="module.driver.transfer.name" value="g_transfer0"/>
@@ -311,6 +311,14 @@
         </stack>
         <stack module="module.el.ux.interface_descriptor_hid.hid.265510272" requires="module.el.ux_device_class_hid.requires.interface_descriptor_hid"/>
       </stack>
+    </context>
+    <context id="rtos.threadx.thread.256203420">
+      <property id="_symbol" value="read_buttons_thread"/>
+      <property id="rtos.threadx.thread.name" value="Button Reader"/>
+      <property id="rtos.threadx.thread.stack" value="1024"/>
+      <property id="rtos.threadx.thread.priority" value="1"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
     </context>
     <config id="config.el.ux_v2"/>
     <config id="config.el.ux_device">
