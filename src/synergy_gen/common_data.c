@@ -450,7 +450,7 @@ static volatile const UCHAR string_framework[] = {
 
         /* Port label 3 */
         0x09, 0x04,
-        0x05,
+        0x06,
         12,
         'E', 'l', 'e', 'c', 't', 'r', 'a', ' ', 'C', 'T', 'R', 'L'
 };
