@@ -83,11 +83,6 @@
 #define UX_DEVICE_CLASS_MIDI_REPORT_TYPE_OUTPUT                     0x2
 #define UX_DEVICE_CLASS_MIDI_REPORT_TYPE_FEATURE                    0x3
 
-/* Define MIDI Protocols.  */
-
-#define UX_DEVICE_CLASS_MIDI_PROTOCOL_BOOT                          0
-#define UX_DEVICE_CLASS_MIDI_PROTOCOL_REPORT                        1
-
 #ifndef UX_DEVICE_CLASS_MIDI_MAX_EVENTS_QUEUE
 #define UX_DEVICE_CLASS_MIDI_MAX_EVENTS_QUEUE                        16
 #endif
@@ -121,7 +116,8 @@ typedef struct UX_SLAVE_CLASS_MIDI_STRUCT
 {
 
     UX_SLAVE_INTERFACE              *ux_slave_class_midi_interface;
-    UX_SLAVE_ENDPOINT               *ux_device_class_midi_interrupt_endpoint;
+    UX_SLAVE_ENDPOINT               *ux_device_class_midi_tx_endpoint;
+    UX_SLAVE_ENDPOINT               *ux_device_class_midi_rx_endpoint;
     UINT                            ux_device_class_midi_state;
     UINT                            (*ux_device_class_midi_callback)(struct UX_SLAVE_CLASS_MIDI_STRUCT *midi, UX_SLAVE_CLASS_MIDI_EVENT *);
     UINT                            (*ux_device_class_midi_get_callback)(struct UX_SLAVE_CLASS_MIDI_STRUCT *midi, UX_SLAVE_CLASS_MIDI_EVENT *);
