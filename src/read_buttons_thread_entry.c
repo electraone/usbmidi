@@ -12,19 +12,8 @@ void read_buttons_thread_entry(void)
         const uint32_t freq_in_hz = 2;
         /* Calculate the delay in terms of the threadx tick rate */
         const uint32_t delay = threadx_tick_rate_Hz/freq_in_hz;
-        /* LED type structure */
-        bsp_leds_t leds;
-        /* LED state variable */
+
         ioport_level_t level = IOPORT_LEVEL_HIGH;
-
-        /* Get LED information for this board */
-        R_BSP_LedsGet(&leds);
-
-        /* If this board has no leds then trap here */
-        if (0 == leds.led_count)
-        {
-            while(1);   // There are no leds on this board
-        }
 
         while (1)
         {
@@ -38,11 +27,7 @@ void read_buttons_thread_entry(void)
                 level = IOPORT_LEVEL_LOW;
             }
 
-            /* Update all board LEDs */
-            for(uint32_t i = 0; i < leds.led_count; i++)
-            {
-                g_ioport.p_api->pinWrite(leds.p_leds[i], level);
-            }
+            g_ioport.p_api->pinWrite(IOPORT_PORT_06_PIN_02, level);
 
             /* Delay */
             tx_thread_sleep (delay);

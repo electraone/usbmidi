@@ -9,6 +9,7 @@ void usb_midi_thread_entry(void)
     UX_SLAVE_INTERFACE* interface;
     UX_SLAVE_CLASS_MIDI* midi;
     UX_SLAVE_CLASS_MIDI_EVENT midi_event;
+    ioport_level_t level = IOPORT_LEVEL_HIGH;
 
     /* Get the pointer to the device.  */
     device =  &_ux_system_slave->ux_system_slave_device;
@@ -38,9 +39,21 @@ void usb_midi_thread_entry(void)
 
             tx_thread_sleep(10);
 
+            if(IOPORT_LEVEL_LOW == level)
+            {
+                level = IOPORT_LEVEL_HIGH;
+            }
+            else
+            {
+                level = IOPORT_LEVEL_LOW;
+            }
+
+            g_ioport.p_api->pinWrite(IOPORT_PORT_06_PIN_01, level);
+#if (1)
             sendNoteOn(60, 127, 16, 2);
             sendNoteOff(60, 127, 16, 2);
             sendControlChange(1, 127, 16, 2);
+#endif
         }
     }
 }
