@@ -81,7 +81,7 @@
 /*                                            resulting in version 6.1.10 */
 /*                                                                        */
 /**************************************************************************/
-VOID  _ux_device_class_midi_bulkout_thread(ULONG midi_class)
+VOID  _ux_device_class_midi_rx_thread(ULONG midi_class)
 {
 
 UX_SLAVE_CLASS                  *class;
@@ -107,7 +107,7 @@ UX_SLAVE_CLASS_MIDI_EVENT       packet;
     {
 
         /* Select the transfer request associated with BULK OUT endpoint.   */
-        transfer_request =  &midi -> ux_device_class_midi_bulkout_endpoint -> ux_slave_endpoint_transfer_request;
+        transfer_request =  &midi -> ux_device_class_midi_rx_endpoint -> ux_slave_endpoint_transfer_request;
 
         /* As long as the device is in the CONFIGURED state.  */
         while (device -> ux_slave_device_state == UX_DEVICE_CONFIGURED)
@@ -131,7 +131,6 @@ UX_SLAVE_CLASS_MIDI_EVENT       packet;
                    //data = ((uint8_t *)transfer_request -> ux_slave_transfer_request_data_pointer)[1];
                    packet = *((UX_SLAVE_CLASS_MIDI_EVENT *)transfer_request -> ux_slave_transfer_request_data_pointer);
                    midi->ux_device_class_midi_callback(midi, &packet);
-                   tx_thread_sleep(100);
                 }
             }
             else
@@ -146,6 +145,6 @@ UX_SLAVE_CLASS_MIDI_EVENT       packet;
         }
 
         /* We need to suspend ourselves. We will be resumed by the device enumeration module.  */
-        _ux_utility_thread_suspend(&midi -> ux_slave_class_midi_bulkout_thread);
+        _ux_utility_thread_suspend(&midi -> ux_slave_class_midi_rx_thread);
     }
 }

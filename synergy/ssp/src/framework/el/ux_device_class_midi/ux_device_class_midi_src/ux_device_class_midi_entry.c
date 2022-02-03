@@ -129,14 +129,6 @@ UINT        status;
         /* Return the completion status.  */
         return(status);
 
-    case UX_SLAVE_CLASS_COMMAND_REQUEST:
-
-        /* The request command is used when the host sends a command on the control endpoint.  */
-        status = _ux_device_class_midi_control_request(command);
-
-        /* Return the completion status.  */
-        return(status);
-
     default: 
 
         /* If trace is enabled, insert this event into the trace buffer.  */

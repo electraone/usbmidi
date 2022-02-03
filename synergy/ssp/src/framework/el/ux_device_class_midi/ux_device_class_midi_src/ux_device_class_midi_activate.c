@@ -148,12 +148,12 @@ UX_SLAVE_ENDPOINT                       *endpoint_rx;
     midi -> ux_device_class_midi_protocol = UX_DEVICE_CLASS_MIDI_PROTOCOL;
 
     /* Save the endpoint in the midi instance.  */
-    midi -> ux_device_class_midi_bulkin_endpoint = endpoint_tx;
-    midi -> ux_device_class_midi_bulkout_endpoint = endpoint_rx;
+    midi -> ux_device_class_midi_tx_endpoint = endpoint_tx;
+    midi -> ux_device_class_midi_rx_endpoint = endpoint_rx;
 
     /* Resume thread.  */
     _ux_utility_thread_resume(&class -> ux_slave_class_thread);
-    _ux_utility_thread_resume(&midi -> ux_slave_class_midi_bulkout_thread);
+    _ux_utility_thread_resume(&midi -> ux_slave_class_midi_rx_thread);
     
     /* If there is a activate function call it.  */
     if (midi -> ux_slave_class_midi_instance_activate != UX_NULL)

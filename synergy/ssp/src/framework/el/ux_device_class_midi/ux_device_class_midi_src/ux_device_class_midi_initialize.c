@@ -104,11 +104,11 @@ UINT                                    status = UX_SUCCESS;
 
     /* Allocate some memory for the bulk out thread stack. */
 
-    midi -> ux_slave_class_midi_bulkout_thread_stack =
+    midi -> ux_slave_class_midi_rx_thread_stack =
             _ux_utility_memory_allocate(UX_NO_ALIGN, UX_REGULAR_MEMORY, UX_THREAD_STACK_SIZE);
 
     /* Check for successful allocation.  */
-    if (midi -> ux_slave_class_midi_bulkout_thread_stack  == UX_NULL)
+    if (midi -> ux_slave_class_midi_rx_thread_stack  == UX_NULL)
         status = UX_MEMORY_INSUFFICIENT;
 
     /* Bulk endpoint treatment needs to be running in a different thread. So start
@@ -116,9 +116,9 @@ UINT                                    status = UX_SUCCESS;
        does not start until we have a instance of the class. */
     if (status == UX_SUCCESS)
     {
-        status =  _ux_utility_thread_create(&midi -> ux_slave_class_midi_bulkout_thread , "ux_slave_class_midi_bulkout_thread",
-                    _ux_device_class_midi_bulkout_thread,
-                    (ULONG) (ALIGN_TYPE) class, (VOID *) midi -> ux_slave_class_midi_bulkout_thread_stack ,
+        status =  _ux_utility_thread_create(&midi -> ux_slave_class_midi_rx_thread , "ux_slave_class_midi_bulkout_thread",
+                    _ux_device_class_midi_rx_thread,
+                    (ULONG) (ALIGN_TYPE) class, (VOID *) midi -> ux_slave_class_midi_rx_thread_stack ,
                     UX_THREAD_STACK_SIZE, UX_THREAD_PRIORITY_CLASS,
                     UX_THREAD_PRIORITY_CLASS, UX_NO_TIME_SLICE, UX_DONT_START);
 
@@ -148,7 +148,7 @@ UINT                                    status = UX_SUCCESS;
        does not start until we have a instance of the class. */
     if (status == UX_SUCCESS)
         status =  _ux_utility_thread_create(&class -> ux_slave_class_thread, "ux_slave_midi_bulkin_thread",
-                    _ux_device_class_midi_bulkin_thread,
+                    _ux_device_class_midi_tx_thread,
                     (ULONG) (ALIGN_TYPE) class, (VOID *) class -> ux_slave_class_thread_stack,
                     UX_THREAD_STACK_SIZE, UX_THREAD_PRIORITY_CLASS,
                     UX_THREAD_PRIORITY_CLASS, UX_NO_TIME_SLICE, UX_DONT_START);
@@ -164,7 +164,6 @@ UINT                                    status = UX_SUCCESS;
 
         /* Store the callback function.  */
         midi -> ux_device_class_midi_callback                   = midi_parameter -> ux_device_class_midi_parameter_callback;
-        midi -> ux_device_class_midi_get_callback               = midi_parameter -> ux_device_class_midi_parameter_get_callback;
 
         /* Create the event array.  */
         midi -> ux_device_class_midi_event_array =  _ux_utility_memory_allocate_mulc_safe(UX_NO_ALIGN, UX_REGULAR_MEMORY, sizeof(UX_SLAVE_CLASS_MIDI_EVENT), UX_DEVICE_CLASS_MIDI_MAX_EVENTS_QUEUE);
