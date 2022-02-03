@@ -116,9 +116,9 @@ UINT                                    status = UX_SUCCESS;
        does not start until we have a instance of the class. */
     if (status == UX_SUCCESS)
     {
-        status =  _ux_utility_thread_create(&midi -> ux_slave_class_midi_rx_thread , "ux_slave_class_midi_bulkout_thread",
+        status =  _ux_utility_thread_create(&midi -> ux_slave_class_midi_rx_thread , "ux_slave_class_midi_rx_thread",
                     _ux_device_class_midi_rx_thread,
-                    (ULONG) (ALIGN_TYPE) class, (VOID *) midi -> ux_slave_class_midi_rx_thread_stack ,
+                    (ULONG) (ALIGN_TYPE) class, (VOID *) midi -> ux_slave_class_midi_rx_thread_stack,
                     UX_THREAD_STACK_SIZE, UX_THREAD_PRIORITY_CLASS,
                     UX_THREAD_PRIORITY_CLASS, UX_NO_TIME_SLICE, UX_DONT_START);
 
@@ -127,7 +127,7 @@ UINT                                    status = UX_SUCCESS;
             status = UX_THREAD_ERROR;
     }
 
-    UX_THREAD_EXTENSION_PTR_SET(&(midi -> ux_slave_class_rndis_bulkout_thread), class)
+    UX_THREAD_EXTENSION_PTR_SET(&(midi -> ux_slave_class_midi_rx_thread), class)
 
 
 
@@ -136,20 +136,20 @@ UINT                                    status = UX_SUCCESS;
 
 
     /* Allocate some memory for the thread stack. */
-    class -> ux_slave_class_thread_stack =  
+    midi -> ux_slave_class_midi_tx_thread_stack =
             _ux_utility_memory_allocate(UX_NO_ALIGN, UX_REGULAR_MEMORY, UX_THREAD_STACK_SIZE);
     
     /* Check for successful allocation.  */
-    if (class -> ux_slave_class_thread_stack == UX_NULL)
+    if (midi -> ux_slave_class_midi_tx_thread_stack == UX_NULL)
         status = UX_MEMORY_INSUFFICIENT;
 
     /* This instance needs to be running in a different thread. So start
        a new thread. We pass a pointer to the class to the new thread.  This thread
        does not start until we have a instance of the class. */
     if (status == UX_SUCCESS)
-        status =  _ux_utility_thread_create(&class -> ux_slave_class_thread, "ux_slave_midi_bulkin_thread",
+        status =  _ux_utility_thread_create(&midi -> ux_slave_class_midi_tx_thread, "ux_slave_midi_tx_thread",
                     _ux_device_class_midi_tx_thread,
-                    (ULONG) (ALIGN_TYPE) class, (VOID *) class -> ux_slave_class_thread_stack,
+                    (ULONG) (ALIGN_TYPE) class, (VOID *) midi -> ux_slave_class_midi_tx_thread_stack,
                     UX_THREAD_STACK_SIZE, UX_THREAD_PRIORITY_CLASS,
                     UX_THREAD_PRIORITY_CLASS, UX_NO_TIME_SLICE, UX_DONT_START);
 
@@ -157,13 +157,13 @@ UINT                                    status = UX_SUCCESS;
     if (status == UX_SUCCESS)
     {
 
-        UX_THREAD_EXTENSION_PTR_SET(&(class -> ux_slave_class_thread), class)
+        UX_THREAD_EXTENSION_PTR_SET(&(midi -> ux_slave_class_midi_tx_thread), class)
 
         /* Get the pointer to the application parameters for the midi class.  */
         midi_parameter =  command -> ux_slave_class_command_parameter;
 
         /* Store the callback function.  */
-        midi -> ux_device_class_midi_callback                   = midi_parameter -> ux_device_class_midi_parameter_callback;
+        midi -> ux_device_class_midi_callback = midi_parameter -> ux_device_class_midi_parameter_callback;
 
         /* Create the event array.  */
         midi -> ux_device_class_midi_event_array =  _ux_utility_memory_allocate_mulc_safe(UX_NO_ALIGN, UX_REGULAR_MEMORY, sizeof(UX_SLAVE_CLASS_MIDI_EVENT), UX_DEVICE_CLASS_MIDI_MAX_EVENTS_QUEUE);
@@ -199,14 +199,14 @@ UINT                                    status = UX_SUCCESS;
             status =  UX_MEMORY_INSUFFICIENT;
 
         /* Delete thread.  */
-        _ux_utility_thread_delete(&class -> ux_slave_class_thread);
+        _ux_utility_thread_delete(&midi -> ux_slave_class_midi_tx_thread);
     }
     else
         status = (UX_THREAD_ERROR);
 
     /* Free stack. */
-    if (class -> ux_slave_class_thread_stack)
-        _ux_utility_memory_free(class -> ux_slave_class_thread_stack);
+    if (midi -> ux_slave_class_midi_tx_thread_stack)
+        _ux_utility_memory_free(midi -> ux_slave_class_midi_tx_thread_stack);
 
     /* Unmount instance. */
     class -> ux_slave_class_instance =  UX_NULL;

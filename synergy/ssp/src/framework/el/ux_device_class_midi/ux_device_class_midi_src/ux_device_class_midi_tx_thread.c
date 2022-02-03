@@ -135,6 +135,6 @@ ULONG                       actual_flags;
         }
              
         /* We need to suspend ourselves. We will be resumed by the device enumeration module.  */
-        _ux_utility_thread_suspend(&class -> ux_slave_class_thread);
+        _ux_utility_thread_suspend(&midi -> ux_slave_class_midi_tx_thread);
     }
 }

@@ -84,10 +84,12 @@ UX_SLAVE_CLASS                          *class;
     midi = (UX_SLAVE_CLASS_MIDI *) class -> ux_slave_class_instance;
 
     /* Remove MIDI thread.  */
-    _ux_utility_thread_delete(&class -> ux_slave_class_thread);
+    _ux_utility_thread_delete(&midi -> ux_slave_class_midi_rx_thread);
+    _ux_utility_thread_delete(&midi -> ux_slave_class_midi_tx_thread);
 
     /* Remove the thread used by MIDI.  */
-    _ux_utility_memory_free(class -> ux_slave_class_thread_stack);
+    _ux_utility_memory_free(&midi -> ux_slave_class_midi_rx_thread);
+    _ux_utility_memory_free(&midi -> ux_slave_class_midi_tx_thread);
 
     /* Delete the event flag group for the midi class.  */
     _ux_utility_event_flags_delete(&midi -> ux_device_class_midi_event_flags_group);
