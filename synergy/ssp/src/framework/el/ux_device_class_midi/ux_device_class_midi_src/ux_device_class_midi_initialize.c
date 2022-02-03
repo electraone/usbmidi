@@ -98,6 +98,43 @@ UINT                                    status = UX_SUCCESS;
     /* Save the address of the MIDI instance inside the MIDI container.  */
     class -> ux_slave_class_instance = (VOID *) midi;
 
+
+
+
+
+    /* Allocate some memory for the bulk out thread stack. */
+
+    midi -> ux_slave_class_midi_bulkout_thread_stack =
+            _ux_utility_memory_allocate(UX_NO_ALIGN, UX_REGULAR_MEMORY, UX_THREAD_STACK_SIZE);
+
+    /* Check for successful allocation.  */
+    if (midi -> ux_slave_class_midi_bulkout_thread_stack  == UX_NULL)
+        status = UX_MEMORY_INSUFFICIENT;
+
+    /* Bulk endpoint treatment needs to be running in a different thread. So start
+       a new thread. We pass a pointer to the midi instance to the new thread.  This thread
+       does not start until we have a instance of the class. */
+    if (status == UX_SUCCESS)
+    {
+        status =  _ux_utility_thread_create(&midi -> ux_slave_class_midi_bulkout_thread , "ux_slave_class_midi_bulkout_thread",
+                    _ux_device_class_midi_bulkout_thread,
+                    (ULONG) (ALIGN_TYPE) class, (VOID *) midi -> ux_slave_class_midi_bulkout_thread_stack ,
+                    UX_THREAD_STACK_SIZE, UX_THREAD_PRIORITY_CLASS,
+                    UX_THREAD_PRIORITY_CLASS, UX_NO_TIME_SLICE, UX_DONT_START);
+
+        /* Check the creation of this thread.  */
+        if (status != UX_SUCCESS)
+            status = UX_THREAD_ERROR;
+    }
+
+    UX_THREAD_EXTENSION_PTR_SET(&(midi -> ux_slave_class_rndis_bulkout_thread), class)
+
+
+
+
+
+
+
     /* Allocate some memory for the thread stack. */
     class -> ux_slave_class_thread_stack =  
             _ux_utility_memory_allocate(UX_NO_ALIGN, UX_REGULAR_MEMORY, UX_THREAD_STACK_SIZE);
@@ -110,8 +147,8 @@ UINT                                    status = UX_SUCCESS;
        a new thread. We pass a pointer to the class to the new thread.  This thread
        does not start until we have a instance of the class. */
     if (status == UX_SUCCESS)
-        status =  _ux_utility_thread_create(&class -> ux_slave_class_thread, "ux_slave_midi_thread",
-                    _ux_device_class_midi_interrupt_thread,
+        status =  _ux_utility_thread_create(&class -> ux_slave_class_thread, "ux_slave_midi_bulkin_thread",
+                    _ux_device_class_midi_bulkin_thread,
                     (ULONG) (ALIGN_TYPE) class, (VOID *) class -> ux_slave_class_thread_stack,
                     UX_THREAD_STACK_SIZE, UX_THREAD_PRIORITY_CLASS,
                     UX_THREAD_PRIORITY_CLASS, UX_NO_TIME_SLICE, UX_DONT_START);

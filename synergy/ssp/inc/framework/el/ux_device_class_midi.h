@@ -103,12 +103,12 @@ typedef union UX_SLAVE_CLASS_MIDI_PACKET_UNION
 } UX_SLAVE_CLASS_MIDI_PACKET;
 
 
-
 typedef struct UX_SLAVE_CLASS_MIDI_EVENT_STRUCT
 {
 	UX_SLAVE_CLASS_MIDI_PACKET      ux_device_class_midi_packet;
 } UX_SLAVE_CLASS_MIDI_EVENT;
 
+#define UX_SLAVE_CLASS_MIDI_EVENT_SIZE 4
 
 /* Define MIDI structure.  */
 
@@ -116,8 +116,8 @@ typedef struct UX_SLAVE_CLASS_MIDI_STRUCT
 {
 
     UX_SLAVE_INTERFACE              *ux_slave_class_midi_interface;
-    UX_SLAVE_ENDPOINT               *ux_device_class_midi_tx_endpoint;
-    UX_SLAVE_ENDPOINT               *ux_device_class_midi_rx_endpoint;
+    UX_SLAVE_ENDPOINT               *ux_device_class_midi_bulkin_endpoint;
+    UX_SLAVE_ENDPOINT               *ux_device_class_midi_bulkout_endpoint;
     UINT                            ux_device_class_midi_state;
     UINT                            (*ux_device_class_midi_callback)(struct UX_SLAVE_CLASS_MIDI_STRUCT *midi, UX_SLAVE_CLASS_MIDI_EVENT *);
     UINT                            (*ux_device_class_midi_get_callback)(struct UX_SLAVE_CLASS_MIDI_STRUCT *midi, UX_SLAVE_CLASS_MIDI_EVENT *);
@@ -131,6 +131,12 @@ typedef struct UX_SLAVE_CLASS_MIDI_STRUCT
     UX_SLAVE_CLASS_MIDI_EVENT        *ux_device_class_midi_event_array_head;
     UX_SLAVE_CLASS_MIDI_EVENT        *ux_device_class_midi_event_array_tail;
     UX_SLAVE_CLASS_MIDI_EVENT        *ux_device_class_midi_event_array_end;
+
+    UX_THREAD                        ux_slave_class_midi_bulkin_thread;
+    UX_THREAD                        ux_slave_class_midi_bulkout_thread;
+
+    UCHAR                            *ux_slave_class_midi_bulkin_thread_stack;
+    UCHAR                            *ux_slave_class_midi_bulkout_thread_stack;
                                                                 
 } UX_SLAVE_CLASS_MIDI;
 
@@ -154,7 +160,8 @@ UINT  _ux_device_class_midi_activate(UX_SLAVE_CLASS_COMMAND *command);
 UINT  _ux_device_class_midi_deactivate(UX_SLAVE_CLASS_COMMAND *command);
 UINT  _ux_device_class_midi_control_request(UX_SLAVE_CLASS_COMMAND *command);
 UINT  _ux_device_class_midi_entry(UX_SLAVE_CLASS_COMMAND *command);
-VOID  _ux_device_class_midi_interrupt_thread(ULONG midi_class);
+VOID  _ux_device_class_midi_bulkin_thread(ULONG midi_class);
+VOID  _ux_device_class_midi_bulkout_thread(ULONG midi_class);
 UINT  _ux_device_class_midi_initialize(UX_SLAVE_CLASS_COMMAND *command);
 UINT  _ux_device_class_midi_uninitialize(UX_SLAVE_CLASS_COMMAND *command);
 UINT  _ux_device_class_midi_event_set(UX_SLAVE_CLASS_MIDI *midi,

@@ -21,12 +21,7 @@
 
 #include "common_data.h"
 
-ULONG num_lock_flag  = UX_FALSE;
-ULONG caps_lock_flag = UX_FALSE;
-
-#define  MIDI_NUM_LOCK_MASK                 1
-#define  MIDI_CAPS_LOCK_MASK                2
-
+static ioport_level_t level = IOPORT_LEVEL_HIGH;
 
 /* This example callback shows how to interpret an event for a HID keyboard. */
 UINT ux_midi_device_callback(UX_SLAVE_CLASS_MIDI* midi, UX_SLAVE_CLASS_MIDI_EVENT* midi_event);
@@ -36,31 +31,17 @@ UINT ux_midi_device_callback(UX_SLAVE_CLASS_MIDI* midi, UX_SLAVE_CLASS_MIDI_EVEN
     SSP_PARAMETER_NOT_USED(midi);
     SSP_PARAMETER_NOT_USED(midi_event);
 
-#if (0)
-    /* There was an event.  Analyze it.  Is it NUM LOCK ? */
-    if (midi_event->ux_device_class_midi_event_buffer[0] & MIDI_NUM_LOCK_MASK)
+    /* Determine the next state of the LEDs */
+    if(IOPORT_LEVEL_LOW == level)
     {
-        /* Set the Num lock flag.  */
-        num_lock_flag = UX_TRUE;
+        level = IOPORT_LEVEL_HIGH;
     }
     else
     {
-        /* Reset the Num lock flag.  */
-        num_lock_flag = UX_FALSE;
+        level = IOPORT_LEVEL_LOW;
     }
 
-    /* There was an event.  Analyze it.  Is it CAPS LOCK ? */
-    if (midi_event->ux_device_class_midi_event_buffer[0] & MIDI_CAPS_LOCK_MASK)
-    {
-        /* Set the Caps lock flag.  */
-        caps_lock_flag = UX_TRUE;
-    }
-    else
-    {
-        /* Reset the Caps lock flag.  */
-        caps_lock_flag = UX_FALSE;
-    }
-#endif
+    g_ioport.p_api->pinWrite(IOPORT_PORT_06_PIN_00, level);
 
     return UX_SUCCESS;
 }

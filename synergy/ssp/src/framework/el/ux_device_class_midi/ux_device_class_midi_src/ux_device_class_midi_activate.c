@@ -96,6 +96,7 @@ UX_SLAVE_ENDPOINT                       *endpoint_rx;
     midi -> ux_slave_class_midi_interface =  interface;
     
     /* Locate the TX endpoint.  */
+    endpoint_tx = UX_NULL;
     endpoint_tx =  interface -> ux_slave_interface_first_endpoint;
 
     /* Check if interrupt IN endpoint exists.  */
@@ -116,10 +117,11 @@ UX_SLAVE_ENDPOINT                       *endpoint_rx;
 
     /* Check if we found right endpoint.  */
     if (endpoint_tx == UX_NULL)
-        return (UX_ERROR);
+        return (UX_DESCRIPTOR_CORRUPTED);
 
 
     /* Locate the RX endpoint.  */
+    endpoint_rx = UX_NULL;
     endpoint_rx =  interface -> ux_slave_interface_first_endpoint;
 
     /* Check if interrupt IN endpoint exists.  */
@@ -140,16 +142,18 @@ UX_SLAVE_ENDPOINT                       *endpoint_rx;
 
     /* Check if we found right endpoint.  */
     if (endpoint_rx == UX_NULL)
-        return (UX_ERROR);
+        return (UX_DESCRIPTOR_CORRUPTED);
 
     /* Default MIDI protocol is report protocol.  */
     midi -> ux_device_class_midi_protocol = UX_DEVICE_CLASS_MIDI_PROTOCOL;
 
     /* Save the endpoint in the midi instance.  */
-    midi -> ux_device_class_midi_tx_endpoint = endpoint_tx;
+    midi -> ux_device_class_midi_bulkin_endpoint = endpoint_tx;
+    midi -> ux_device_class_midi_bulkout_endpoint = endpoint_rx;
 
     /* Resume thread.  */
     _ux_utility_thread_resume(&class -> ux_slave_class_thread);
+    _ux_utility_thread_resume(&midi -> ux_slave_class_midi_bulkout_thread);
     
     /* If there is a activate function call it.  */
     if (midi -> ux_slave_class_midi_instance_activate != UX_NULL)

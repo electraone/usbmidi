@@ -37,8 +37,8 @@ void usb_midi_thread_entry(void)
             midi = interface->ux_slave_interface_class_instance;
             usbMIDI = midi;
 
-            tx_thread_sleep(10);
-
+            tx_thread_sleep(100);
+#if (1)
             if(IOPORT_LEVEL_LOW == level)
             {
                 level = IOPORT_LEVEL_HIGH;
@@ -49,10 +49,10 @@ void usb_midi_thread_entry(void)
             }
 
             g_ioport.p_api->pinWrite(IOPORT_PORT_06_PIN_01, level);
-#if (1)
+
             sendNoteOn(60, 127, 16, 2);
-            sendNoteOff(60, 127, 16, 2);
-            sendControlChange(1, 127, 16, 2);
+            //sendNoteOff(60, 127, 16, 2);
+            //sendControlChange(1, 127, 16, 2);
 #endif
         }
     }

@@ -77,7 +77,7 @@
 /*                                            resulting in version 6.1    */
 /*                                                                        */
 /**************************************************************************/
-VOID  _ux_device_class_midi_interrupt_thread(ULONG midi_class)
+VOID  _ux_device_class_midi_bulkin_thread(ULONG midi_class)
 {
 
 UX_SLAVE_CLASS              *class;
@@ -103,7 +103,7 @@ ULONG                       actual_flags;
     while(1)
     {
         /* All MIDI events are on the interrupt endpoint IN, from the host.  */
-        transfer_request_in =  &midi -> ux_device_class_midi_tx_endpoint -> ux_slave_endpoint_transfer_request;
+        transfer_request_in =  &midi -> ux_device_class_midi_bulkin_endpoint -> ux_slave_endpoint_transfer_request;
 
         /* As long as the device is in the CONFIGURED state.  */
         while (device -> ux_slave_device_state == UX_DEVICE_CONFIGURED)

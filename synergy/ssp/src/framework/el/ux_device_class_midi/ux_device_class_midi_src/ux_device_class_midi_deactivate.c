@@ -81,7 +81,7 @@ UX_SLAVE_CLASS             *class;
     midi = (UX_SLAVE_CLASS_MIDI *) class -> ux_slave_class_instance;
 
     /* Terminate the transactions pending on the endpoints.  */
-    _ux_device_stack_transfer_all_request_abort(midi -> ux_device_class_midi_tx_endpoint, UX_TRANSFER_BUS_RESET);
+    _ux_device_stack_transfer_all_request_abort(midi -> ux_device_class_midi_bulkin_endpoint, UX_TRANSFER_BUS_RESET);
 
     /* If there is a deactivate function call it.  */
     if (midi -> ux_slave_class_midi_instance_deactivate != UX_NULL)
